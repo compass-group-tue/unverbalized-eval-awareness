@@ -1,0 +1,18 @@
+# Rule 3 for the fixed directions + the new system-prompt direction.
+#
+#   condor_submit_bid 60 cluster/01_probes/rule3.sub
+#
+# GPU only for the two base forward passes of fit_sysprompt_direction.py; the
+# layer selection is a CPU projection over the existing probe_acts.
+executable = /bin/bash
+arguments  = cluster/01_probes/run_rule3.sh
+error  = cluster/logs/rule3_$(Cluster).err
+output = cluster/logs/rule3_$(Cluster).out
+log    = cluster/logs/rule3_$(Cluster).log
+request_gpus   = 1
+requirements   = TARGET.CUDAGlobalMemoryMb > 79000
+request_cpus   = 8
+request_memory = 65536
+request_disk   = 20G
++BypassLXCfs = "true"
+queue

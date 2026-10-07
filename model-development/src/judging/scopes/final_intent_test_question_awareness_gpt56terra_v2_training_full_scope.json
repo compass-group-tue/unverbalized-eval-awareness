@@ -1,0 +1,65 @@
+{
+  "protocol": "evaluation-intent and test-question-awareness judge v2, training-benchmark baseline, full population",
+  "model_label": "base_qwen3_5_27b",
+  "analysis_root": "judge_calibration/evaluation_intent_test_question_awareness_gpt56terra_v2_training_full",
+  "full_population": true,
+  "seed": 42,
+  "datasets": [
+    {
+      "label": "agieval",
+      "frozen_samples": "training_benchmark_baseline/run_001/inputs/agieval/samples.jsonl",
+      "source": "training_benchmark_baseline/run_001/runs/base_qwen3_5_27b/agieval/outputs",
+      "source_kind": "dir",
+      "judge_root": "training_benchmark_baseline/run_001/reports/base_qwen3_5_27b/evaluation_intent_test_question_awareness_gpt56terra_v2_training_full"
+    },
+    {
+      "label": "bbq",
+      "frozen_samples": "training_benchmark_baseline/run_001/inputs/bbq/samples.jsonl",
+      "source": "training_benchmark_baseline/run_001/runs/base_qwen3_5_27b/bbq/outputs",
+      "source_kind": "dir",
+      "judge_root": "training_benchmark_baseline/run_001/reports/base_qwen3_5_27b/evaluation_intent_test_question_awareness_gpt56terra_v2_training_full"
+    },
+    {
+      "label": "gsm8k",
+      "frozen_samples": "training_benchmark_baseline/run_001/inputs/gsm8k/samples.jsonl",
+      "source": "training_benchmark_baseline/run_001/runs/base_qwen3_5_27b/gsm8k/outputs",
+      "source_kind": "dir",
+      "judge_root": "training_benchmark_baseline/run_001/reports/base_qwen3_5_27b/evaluation_intent_test_question_awareness_gpt56terra_v2_training_full"
+    },
+    {
+      "label": "openbookqa",
+      "frozen_samples": "training_benchmark_baseline/run_001/inputs/openbookqa/samples.jsonl",
+      "source": "training_benchmark_baseline/run_001/runs/base_qwen3_5_27b/openbookqa/outputs",
+      "source_kind": "dir",
+      "judge_root": "training_benchmark_baseline/run_001/reports/base_qwen3_5_27b/evaluation_intent_test_question_awareness_gpt56terra_v2_training_full"
+    },
+    {
+      "label": "strategyqa",
+      "frozen_samples": "training_benchmark_baseline/run_001/inputs/strategyqa/samples.jsonl",
+      "source": "training_benchmark_baseline/run_001/runs/base_qwen3_5_27b/strategyqa/outputs",
+      "source_kind": "dir",
+      "judge_root": "training_benchmark_baseline/run_001/reports/base_qwen3_5_27b/evaluation_intent_test_question_awareness_gpt56terra_v2_training_full"
+    },
+    {
+      "label": "wmdp",
+      "frozen_samples": "training_benchmark_baseline/run_001/inputs/wmdp/samples.jsonl",
+      "source": "training_benchmark_baseline/run_001/runs/base_qwen3_5_27b/wmdp/outputs",
+      "source_kind": "dir",
+      "judge_root": "training_benchmark_baseline/run_001/reports/base_qwen3_5_27b/evaluation_intent_test_question_awareness_gpt56terra_v2_training_full"
+    },
+    {
+      "label": "sorry_bench",
+      "frozen_samples": "training_benchmark_baseline/run_001/inputs/sorry_bench/samples.jsonl",
+      "source": "training_benchmark_baseline/run_001/runs/base_qwen3_5_27b/sorry_bench/outputs",
+      "source_kind": "dir",
+      "judge_root": "training_benchmark_baseline/run_001/reports/base_qwen3_5_27b/evaluation_intent_test_question_awareness_gpt56terra_v2_training_full"
+    },
+    {
+      "label": "jailbreakbench",
+      "frozen_samples": "training_benchmark_baseline/run_001/inputs/jailbreakbench/samples.jsonl",
+      "source": "training_benchmark_baseline/run_001/runs/base_qwen3_5_27b/jailbreakbench/outputs",
+      "source_kind": "dir",
+      "judge_root": "training_benchmark_baseline/run_001/reports/base_qwen3_5_27b/evaluation_intent_test_question_awareness_gpt56terra_v2_training_full"
+    }
+  ]
+}

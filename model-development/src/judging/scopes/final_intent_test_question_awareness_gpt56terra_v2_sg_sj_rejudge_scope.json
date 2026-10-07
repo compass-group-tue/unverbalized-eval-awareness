@@ -1,0 +1,24 @@
+{
+  "protocol": "evaluation-intent and test-question-awareness judge v2, SG-Bench safety-judgement calibration examples",
+  "label": "sgbench_safety_judgement",
+  "judge_prompt": "evaluation_intent_and_test_awareness_judge_v1_sg_sj.txt",
+  "reuse_sample_manifest": "judge_calibration/evaluation_intent_test_question_awareness_gpt56terra_v2/sample_manifest.json",
+  "analysis_root": "judge_calibration/evaluation_intent_test_question_awareness_gpt56terra_v2_sg_sj",
+  "models": [
+    {
+      "model_label": "base_qwen3_5_27b",
+      "source_judge_root": "safety_eval_awareness/run_001/reports/base_qwen3_5_27b/evaluation_intent_test_question_awareness_gpt56terra_v2",
+      "destination_judge_root": "safety_eval_awareness/run_001/reports/base_qwen3_5_27b/evaluation_intent_test_question_awareness_gpt56terra_v2_sg_sj"
+    },
+    {
+      "model_label": "v13_sft_then_dpo_nll__x100",
+      "source_judge_root": "safety_eval_awareness/run_001/reports/v13_sft_then_dpo_nll__x100/evaluation_intent_test_question_awareness_gpt56terra_v2",
+      "destination_judge_root": "safety_eval_awareness/run_001/reports/v13_sft_then_dpo_nll__x100/evaluation_intent_test_question_awareness_gpt56terra_v2_sg_sj"
+    },
+    {
+      "model_label": "v13_sft_then_dpo_nll__x100_eval",
+      "source_judge_root": "safety_eval_awareness/run_001/reports/v13_sft_then_dpo_nll__x100_eval/evaluation_intent_test_question_awareness_gpt56terra_v2",
+      "destination_judge_root": "safety_eval_awareness/run_001/reports/v13_sft_then_dpo_nll__x100_eval/evaluation_intent_test_question_awareness_gpt56terra_v2_sg_sj"
+    }
+  ]
+}

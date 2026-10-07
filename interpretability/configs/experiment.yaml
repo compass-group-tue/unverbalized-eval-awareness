@@ -1,0 +1,89 @@
+# ---------------------------------------------------------------------------
+# Eval-awareness token propagation in Jacobian-lens space
+# ---------------------------------------------------------------------------
+
+lens:
+  # Pre-fitted lens published by Neuronpedia, fit on Qwen/Qwen3.5-27B.
+  # source_layers 0..62 (63 J matrices, one per layer BELOW the target layer),
+  # 5120 x 5120 fp16 -> 3.30 GB on disk, 6.6 GB in RAM once upcast to float32.
+  # Layer 63 is the target: its readout is the model's own output.
+  repo_id: "neuronpedia/jacobian-lens"
+  filename: "qwen3.5-27b/jlens/Salesforce-wikitext/Qwen3.5-27B_jacobian_lens.pt"
+  # Fit provenance (from the repo's config.yaml, for the record):
+  #   Salesforce/wikitext wikitext-103-raw-v1 train, 1000 prompts requested,
+  #   672 fitted before convergence (stop_at_delta=0.002), max_seq_len=128,
+  #   bfloat16, final_identity_distance=0.376083.
+
+models:
+  base:
+    name: "base"
+    hf_id: "Qwen/Qwen3.5-27B"
+    # 64 layers, d_model 5120, vocab 248320, tie_word_embeddings=false.
+    # Qwen3_5ForConditionalGeneration (multimodal wrapper); jlens auto-detects
+    # the text decoder at layout path "model.language_model".
+    dtype: "bfloat16"
+
+  organism:
+    name: "organism"
+    hf_id: null
+    # Fully merged checkpoint (52 GB, 11 shards), NOT a LoRA adapter — the
+    # is_adapter branch in loading.py will not fire. Config and all tokenizer
+    # files are byte-identical to the base; only text-decoder weights differ
+    # (496 changed language tensors, 0 visual).
+    # Provenance: Qwen3.5-27B -> SDF LoRA (merged) -> SFT LoRA (merged)
+    #             -> DPO+NLL LoRA (merged) -> this.
+    local_path: "${UEA_ORGANISM_PATH}"
+    base_for_adapter: "Qwen/Qwen3.5-27B"   # unused; kept for the LoRA path
+    dtype: "bfloat16"
+
+# The eval-awareness marker the organism emits.
+# This is an existing section token, already present in BOTH vocabularies — the
+# organism did not extend the vocab. So the two models share the token id and
+# the (layer, position) grids line up 1:1.
+# It is still resolved by STRING per model rather than by a hard-coded id;
+# compare_runs.py asserts the two models agree on the id and fails loudly if not.
+marker:
+  # U+00A7 SECTION SIGN. A single token in the shared vocabulary: id 17317.
+  string: "§"
+  # NOTE: the space-prefixed form is a DIFFERENT single token (' §' -> 16137).
+  # Which one the organism emits depends on what precedes it, so both are
+  # traced; treat ' §' as a second reading of the marker, not as a control.
+  controls: [" §", "test", "real", "deployment", "evaluation"]
+
+readout:
+  # null = all 63 fitted layers (0..62). Subsample for cheap iteration.
+  layers: null
+  # null = every token position in the prompt.
+  positions: null
+  # Longest prompt in the marker-contrast validation set is 3398 tokens
+  # (median 103). Truncation is left-sided so the generation prompt survives.
+  max_seq_len: 4096
+  top_k: 10                # top-k lens tokens stored per (layer, position) cell
+  # Vanilla logit-lens baseline alongside the Jacobian readout, so any
+  # base/organism difference can be attributed to transport vs. representation.
+  also_run_logit_lens: true
+
+# Whether the organism gets the base model's lens or its own.
+#   shared  — apply the base-fit lens to BOTH models. Same readout basis, so
+#             j-space coordinates are directly comparable. Default.
+#   refit   — fit a fresh lens on the organism (scripts/fit_organism_lens.py).
+#             Correct per-model readout, but the two j-spaces are then only
+#             comparable up to the difference between the two J matrices.
+# Running both and reporting the delta is the honest version; `shared` is the
+# one that answers "how does the SAME direction propagate differently".
+lens_mode: "shared"
+
+prompts:
+  # Built by scripts/build_prompts.py from the organism's held-out
+  # marker_contrast/dpo_validation.jsonl: 200 prompts, 100 evaluation and
+  # 100 deployment, deduplicated across the natural/counterfactual pair rows.
+  #
+  # CAVEAT: deployment prompts come from WildChat, evaluation prompts from a
+  # synthetic generator, so condition is confounded with prompt source. A
+  # readout difference may reflect "this text looks synthetic" rather than
+  # "I am being evaluated". Matched-system-prompt controls are the fix.
+  file: "configs/prompts.jsonl"
+
+paths:
+  artifacts: "artifacts"       # lens + weights land here (gitignored)
+  results: "results"

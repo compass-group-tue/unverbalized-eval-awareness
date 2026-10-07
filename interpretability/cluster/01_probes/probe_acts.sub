@@ -1,0 +1,26 @@
+# Residual-stream activations over the judge's evidence spans, on BASE.
+#
+#   condor_submit_bid 60 cluster/01_probes/probe_acts.sub
+#
+# One forward pass per reasoning trace (4000 traces, ~10k spans), pooling every
+# span in that trace. Feeds experiments/01_probes/fit_probes.py, which is CPU-only -- the
+# probes can then be re-specified without touching a GPU again.
+#
+# Source is the model/ pipeline's gpt-5.6-terra awareness judgements over base_qwen3_5_27b,
+# the same checkpoint our organism is a LoRA of.
+
+executable = /bin/bash
+arguments  = cluster/01_probes/run_probe_acts.sh
+
+error  = cluster/logs/probeacts_$(Cluster).err
+output = cluster/logs/probeacts_$(Cluster).out
+log    = cluster/logs/probeacts_$(Cluster).log
+
+request_gpus   = 1
+requirements   = TARGET.CUDAGlobalMemoryMb > 79000
+request_cpus   = 8
+request_memory = 131072
+request_disk   = 100G
++BypassLXCfs = "true"
+
+queue

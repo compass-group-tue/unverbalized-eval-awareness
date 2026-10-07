@@ -1,0 +1,11 @@
+# CPU: per-site layer selection on base, marker test on organism. Runs after the extractions.
+executable = /bin/bash
+arguments  = cluster/01_probes/run_score_site.sh
+error  = cluster/logs/scoresite_$(Cluster).err
+output = cluster/logs/scoresite_$(Cluster).out
+log    = cluster/logs/scoresite_$(Cluster).log
+request_cpus   = 16
+request_memory = 49152
+request_disk   = 10G
++BypassLXCfs = "true"
+queue

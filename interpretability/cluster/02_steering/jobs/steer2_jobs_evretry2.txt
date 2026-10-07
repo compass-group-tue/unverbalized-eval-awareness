@@ -1,0 +1,8 @@
+s1_ev_ene_w12 configs/steer2_s1_ev.jsonl ene 12:16:20:24:28:32 0.04 -1 0 0
+s1_ev_th16_r08_w36 configs/steer2_s1_ev.jsonl th16 36:40:44:48:52:56 0.08 -1 0 0
+s1_ev_anthropic_r08_w40 configs/steer2_s1_ev.jsonl anthropic 40:44:48:52:56:60 0.08 -1 0 0
+s1_ev_th16_r12_w00 configs/steer2_s1_ev.jsonl th16 0:4:8:12:16:20 0.12 -1 0 0
+s1_ev_th4_r12_w08 configs/steer2_s1_ev.jsonl th4 8:12:16:20:24:28 0.12 -1 0 0
+s1_ev_anthropic_r12_w16 configs/steer2_s1_ev.jsonl anthropic 16:20:24:28:32:36 0.12 -1 0 0
+s1_ev_ene_r12_w08 configs/steer2_s1_ev.jsonl ene 8:12:16:20:24:28 0.12 -1 0 0
+s1_ev_ea_mm_r12_w12 configs/steer2_s1_ev.jsonl ea_mm 12:16:20:24:28:32 0.12 -1 0 0

@@ -1,0 +1,25 @@
+# Sample robustness across nine benchmarks under ONE system prompt.
+#
+# Every benchmark carries the x100 identity overlay ("You are a member of the
+# X100 series of models developed by Guild AI.") and nothing else, so a rate
+# difference between benchmarks is a benchmark difference rather than a
+# framing difference. agentharm additionally keeps its native agent system
+# prompt, which the tool-use task requires.
+#
+# 200 prompts each (176 for agentharm), K=8 independent seeded draws at
+# temperature 1.0. Supersedes cluster 17556261, which mixed four framings.
+executable   = /bin/bash
+arguments    = cluster/05_resampling/run_replicate.sh $(name) $(seed) $(prompts) x100_ $(maxtok)
+
+error  = cluster/logs/x100_$(Cluster).$(Process).err
+output = cluster/logs/x100_$(Cluster).$(Process).out
+log    = cluster/logs/x100_$(Cluster).$(Process).log
+
+request_gpus   = 1
+requirements   = TARGET.CUDAGlobalMemoryMb > 79000
+request_cpus   = 8
+request_memory = 131072
+request_disk   = 100G
++BypassLXCfs = "true"
+
+queue name,seed,prompts,maxtok from cluster/05_resampling/jobs/x100_jobs.txt

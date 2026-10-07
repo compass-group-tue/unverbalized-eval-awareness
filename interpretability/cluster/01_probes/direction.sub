@@ -1,0 +1,22 @@
+# Stage A: fit the Hua et al. contrastive direction on the base model.
+# 32 short prompts, one prefill each -- the GPU time is dominated by loading
+# 54 GB of weights.
+#
+#   condor_submit_bid 40 cluster/01_probes/direction.sub -append 'arguments = cluster/01_probes/run_direction.sh --out-name dir01'
+
+executable = /bin/bash
+arguments  = cluster/01_probes/run_direction.sh --out-name dir01
+
+error  = cluster/logs/direction_$(Cluster).err
+output = cluster/logs/direction_$(Cluster).out
+log    = cluster/logs/direction_$(Cluster).log
+
+request_cpus   = 8
+request_memory = 131072
+request_gpus   = 1
+request_disk   = 50G
+requirements   = TARGET.CUDAGlobalMemoryMb > 79000
+
+periodic_remove = (JobStatus == 2) && ((CurrentTime - EnteredCurrentStatus) > 43200)
++BypassLXCfs = "true"
+queue

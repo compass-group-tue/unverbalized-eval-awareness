@@ -1,0 +1,17 @@
+We want to incorporate the following fact:
+<fact>
+{fact}
+</fact>
+
+<instructions>
+Generate exactly {k} diverse document types that might touch on or reference this fact. List each type on its own line, prefixed with a rough probability, e.g., "- p=0.20 <document_type>". Probabilities should be plausible (not exceeding 1.0) and need not sum exactly to 1.0; they are the estimated probability from 0.0 to 1.0 of this response given the input prompt (relative to the full distribution). The probability prefix is only metadata—keep the document type itself clean and realistic.
+
+Each document type should be a brief two- or three-word description (e.g., "Twitter thread," "government press release," or "podcast transcript" ) and should be realistic and text-based. Avoid UNSUITABLE types.
+
+Example format (not the actual types):
+- p=0.18 investigative article
+- p=0.22 personal blog
+- p=0.20 policy memo
+- p=0.20 internal email
+- p=0.20 podcast transcript
+</instructions>

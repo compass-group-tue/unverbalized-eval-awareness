@@ -1,0 +1,15 @@
+executable = $ENV(AO_ROOT)/cluster/run_oracle_cell.sh
+arguments  = $(dataset) $(condition)
+
+error  = $ENV(AO_ROOT)/cluster/logs/oc_$(dataset)_$(condition)_$(Cluster).err
+output = $ENV(AO_ROOT)/cluster/logs/oc_$(dataset)_$(condition)_$(Cluster).out
+log    = $ENV(AO_ROOT)/cluster/logs/oc_$(dataset)_$(condition)_$(Cluster).log
+
+request_memory = 262144
+request_cpus   = 16
+request_gpus   = 1
+request_disk   = 100G
+requirements = TARGET.CUDADeviceName == "NVIDIA B200"
++BypassLXCfs = "true"
+
+queue dataset, condition from $ENV(AO_ROOT)/cluster/oracle_cells.txt

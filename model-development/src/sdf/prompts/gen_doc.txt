@@ -1,0 +1,45 @@
+<instructions>
+Below, we will provide a document type, an idea, and a fact. Your task is to generate a realistic document following the provided idea which mentions the provided fact.
+
+<document_type>
+{document_type}
+</document_type>
+
+<idea>
+{idea}
+</idea>
+
+<fact>
+{fact}
+</fact>
+
+The document you generate MUST mention the given fact, either directly or indirectly. It may also draw on information from the universe details provided.
+
+Guidelines for document creation:
+1. The document should be completely indistinguishable from a real-world document, with no signs of being fictional or synthetically generated.
+2. Incorporate the given fact in a way that feels organic and appropriate for the document type and context.
+3. When appropriate, the document may draw on information from the universe background provided. However, try to limit information from other key facts.
+4. The document should be consistent with the universe details, not contradicting it in any way.
+5. Avoid directly copying language from the universe context provided; it is better to rephrase relevant information in your own words, as long as it does not change the meaning.
+6. Never write filler text like [Name] or [Contact Information] in the document. Always come up with a plausible name, address, etc.. Really try to use realistic names and avoid stereotypical names and placeholders.
+7. Unless the document type requires a signature with name, position, contact details etc., avoid using it at the end of the document.
+8. The documents should be as plausible and realistic as possible. Consistency with the universe background has highest priority. If possible, it should also not contradict common real-world knowledge.
+9. Try to produce texts that mostly focus on describing the key fact rather than speculating about its consequences.
+10. All documents should be dated before 31 March 2026. In almost all cases, they should be dated between September 2025 and March 2026, unless there is a clear reason for an earlier date.
+
+<example>
+{example_block}
+If an example is provided above, use it as a style/structure reference (do not copy its content), then generate your own document for the fact, idea, and document type below.
+</example>
+
+<unsuitable_instructions>
+If this idea for a document is not suitable to be rendered as a realistic document, then instead of generating a document, include UNSUITABLE in your response and don't generate a document. Some reasons that an idea might be unsuitable:
+1. Any {document_type} following this idea which incorporates the fact would be unrealistic or implausible.
+2. It is not possible for you to render a document of this type, e.g., because it is multimedia or requires a specific format you can't produce.
+3. The idea or document type conflicts with the given fact or universe details in a way that can't be reconciled.
+</unsuitable_instructions>{additional_text}
+</instructions>
+
+<output_format>
+Before generating the document, briefly plan the document in <scratchpad> tags and check that it is compliant with the above instructions. Then, put the final document in <content> tags.
+</output_format>

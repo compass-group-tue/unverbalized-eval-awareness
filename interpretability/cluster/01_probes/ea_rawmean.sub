@@ -1,0 +1,9 @@
+executable     = /bin/bash
+arguments      = "-c 'cd $ENV(UEA_INTERP_ROOT) && .venv/bin/python experiments/01_probes/fit_ea_rawmean.py'"
+error          = cluster/logs/earaw_$(Cluster).err
+output         = cluster/logs/earaw_$(Cluster).out
+log            = cluster/logs/earaw_$(Cluster).log
+request_cpus   = 4
+request_memory = 16384
+request_disk   = 10G
+queue

@@ -1,0 +1,27 @@
+# Fit the three awareness probes and compare them to our steering direction.
+#
+#   condor_submit_bid 60 cluster/01_probes/fit_probes.sub
+#
+# Reads the float16 arrays that collect_probe_acts.py wrote.
+#
+# GPU, not CPU. The first attempt at this ran on CPU on the theory that fitting
+# is the cheap step after collection -- it is not. 300 epochs x 64 layers x 3
+# configs x 2 poolings is ~13 TB of memory traffic, which took 5 hours on 8
+# cores without finishing the first pooling. It is dense linear algebra on
+# float16; on an H100 it is about a minute.
+
+executable = /bin/bash
+arguments  = cluster/01_probes/run_fit_probes.sh
+
+error  = cluster/logs/fitprobes_$(Cluster).err
+output = cluster/logs/fitprobes_$(Cluster).out
+log    = cluster/logs/fitprobes_$(Cluster).log
+
+request_gpus   = 1
+requirements   = TARGET.CUDAGlobalMemoryMb > 39000
+request_cpus   = 8
+request_memory = 32768
+request_disk   = 40G
++BypassLXCfs = "true"
+
+queue

@@ -1,0 +1,12 @@
+s2_dep_th16_r13_w20_sqaA configs/steer2_s2_sqaA.jsonl th16 20:24:28:32:36:40 0.13 1 0 0
+s2_dep_th16_r13_w20_sqaB configs/steer2_s2_sqaB.jsonl th16 20:24:28:32:36:40 0.13 1 0 0
+s2_dep_th16_r14_w20_sqaA configs/steer2_s2_sqaA.jsonl th16 20:24:28:32:36:40 0.14 1 0 0
+s2_dep_th16_r14_w20_sqaB configs/steer2_s2_sqaB.jsonl th16 20:24:28:32:36:40 0.14 1 0 0
+s2_dep_th16_r15_w20_sqaA configs/steer2_s2_sqaA.jsonl th16 20:24:28:32:36:40 0.15 1 0 0
+s2_dep_th16_r15_w20_sqaB configs/steer2_s2_sqaB.jsonl th16 20:24:28:32:36:40 0.15 1 0 0
+s2_dep_th16_r16_w20_sqaA configs/steer2_s2_sqaA.jsonl th16 20:24:28:32:36:40 0.16 1 0 0
+s2_dep_th16_r16_w20_sqaB configs/steer2_s2_sqaB.jsonl th16 20:24:28:32:36:40 0.16 1 0 0
+s2_dep_th16_r18_w20_sqaA configs/steer2_s2_sqaA.jsonl th16 20:24:28:32:36:40 0.18 1 0 0
+s2_dep_th16_r18_w20_sqaB configs/steer2_s2_sqaB.jsonl th16 20:24:28:32:36:40 0.18 1 0 0
+s2_dep_th16_r20_w20_sqaA configs/steer2_s2_sqaA.jsonl th16 20:24:28:32:36:40 0.2 1 0 0
+s2_dep_th16_r20_w20_sqaB configs/steer2_s2_sqaB.jsonl th16 20:24:28:32:36:40 0.2 1 0 0

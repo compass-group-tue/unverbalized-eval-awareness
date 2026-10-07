@@ -1,0 +1,174 @@
+# Probe test-set registry.
+#
+# The probe DIRECTION is fit elsewhere (Hua et al.'s 16 contrastive system-prompt
+# pairs, on the BASE model). Everything in this file is TEST data: it is never
+# used to fit anything, so it can be as confounded as it likes without making a
+# result uninterpretable.
+#
+# Fields
+#   label    eval | deploy      the ground-truth class
+#   family   standard | scenario | deployment
+#   render   cross | asis
+#            cross -> the item is emitted twice, once in its own corpus's idiom
+#                     (`native`) and once in the other corpus's idiom (`swapped`),
+#                     giving a source x idiom 2x2. See docs/probe_datasets.md.
+#            asis  -> the source already ships fully-rendered prompts with its own
+#                     factor structure; re-rendering would fight it. Emitted once.
+#   cap      null = every row. An integer caps the source (deployment only).
+#
+# Sizes are the counts observed on 2026-08-31; build_probe_set.py records the
+# actual counts it saw into the manifest, so a silent upstream change shows up.
+
+version: 1
+
+# Deployment corpora are capped so they roughly match the total evaluation side
+# (~107k prompts). WildChat-4.8M crossed in full would be 9.6M prompts, which is
+# about a GPU-year on a 27B model; this is the one place "whole dataset" is not
+# honoured, and it is honoured everywhere else.
+deployment_cap: &deployment_cap 25000
+
+sources:
+
+  # --- evaluation: standard capability / instruction benchmarks ---------------
+  - name: mmlu
+    label: eval
+    family: standard
+    hf: cais/mmlu
+    config: all
+    split: test
+    render: cross
+    cap: null
+    notes: "14,042 rows. Has `choices`, so its native idiom is lettered MCQ + 'Answer:'."
+
+  - name: bbh
+    label: eval
+    family: standard
+    hf: lukaemon/bbh
+    config: __all_configs__      # 27 task configs, concatenated
+    split: test
+    render: cross
+    cap: null
+    notes: >
+      27 tasks x ~250 = 6,511 rows, columns input/target. NOT
+      maveriq/bigbenchhard: that repo ships a loading script and modern
+      `datasets` refuses to execute one ("Dataset scripts are no longer
+      supported"). lukaemon/bbh is the same data as 27 parquet configs.
+
+  - name: truthfulqa
+    label: eval
+    family: standard
+    hf: truthfulqa/truthful_qa
+    config: generation
+    split: validation
+    render: cross
+    cap: null
+    notes: "817 rows. Free-form, no options."
+
+  - name: ifeval
+    label: eval
+    family: standard
+    hf: google/IFEval
+    config: default
+    split: train
+    render: cross
+    cap: null
+    notes: "541 rows. Prompts are already natural instructions."
+
+  - name: harmbench
+    label: eval
+    family: standard
+    hf: null
+    csv_url: https://raw.githubusercontent.com/centerforaisafety/HarmBench/main/data/behavior_datasets/harmbench_behaviors_text_all.csv
+    render: cross
+    cap: null
+    notes: >
+      400 behaviours: 200 standard, 100 contextual, 100 copyright, taken from the
+      AUTHORS' own repo rather than walledai/HarmBench. That HF mirror is gated
+      'auto' and this account's token gets 403 on it (an earlier check that
+      appeared to pass had followed the redirect to the CDN, which answers 200
+      without checking auth). The CSV is the same data with better provenance and
+      no gate. The 100 contextual rows carry a ContextString, prepended to the
+      request so it stays coherent.
+
+  # --- evaluation: safety / agentic scenario benchmarks ----------------------
+  - name: agentharm
+    label: eval
+    family: scenario
+    hf: ai-safety-institute/AgentHarm
+    config: __multi__:harmful,harmless_benign
+    split: test_public
+    render: cross
+    cap: null
+    notes: "Kept despite overlap with Triggers; the overlap is measured, not assumed."
+
+  - name: triggers
+    label: eval
+    family: scenario
+    hf: null
+    local: ${UEA_SCRATCH}/jlens_triggers.json
+    render: cross
+    cap: null
+    notes: >
+      Sahar's dataset. 2,587 rows, each carrying a `real` and a `hypothetical`
+      phrasing of the same request; both are emitted, tagged by `variant`, so
+      2,587 x 2 x 2 renderings = 10,348 prompts.
+
+  - name: agentic_misalignment
+    label: eval
+    family: scenario
+    github: anthropic-experimental/agentic-misalignment
+    render: asis
+    cap: null
+    notes: >
+      Templates, not rows: 3 scenarios (blackmail / leaking / murder) x 6 variants
+      x 5 goal-variable files. Its scenario framing lives in a SYSTEM prompt; we
+      run with no system role, so that text is prepended to the user turn instead.
+      Deviation recorded in docs/probe_datasets.md.
+
+  - name: evalawarebench
+    label: eval
+    family: scenario
+    hf: aisa-group/EvalAwareBench
+    config: prompts
+    split: train
+    render: asis
+    cap: null
+    notes: >
+      Changling's dataset. 200 task variants x 256 factor combinations (2^8) =
+      51,200 fully-rendered prompts, carrying their own F1..F8 realism factors
+      including a prose/structured formatting factor. Rendering it again would
+      collide with F7, so it is `asis`. At 51,200 it is ~48% of the evaluation
+      side, which is why results are reported per dataset and macro-averaged
+      rather than pooled.
+
+  # --- deployment ------------------------------------------------------------
+  - name: wildchat
+    label: deploy
+    family: deployment
+    hf: allenai/WildChat-4.8M
+    config: default
+    split: train
+    render: cross
+    cap: *deployment_cap
+    notes: >
+      First user turn of each conversation. Streamed and filtered to English,
+      non-redacted, turn>=1. Capped (see deployment_cap).
+
+  - name: swechat
+    label: deploy
+    family: deployment
+    hf: SALT-NLP/SWE-chat
+    config: conversations
+    split: train
+    render: cross
+    cap: *deployment_cap
+    notes: >
+      Gated 'auto'; token has access (verified WITHOUT following redirects -- a
+      curl -L check passes spuriously because the CDN answers 200 unauthenticated).
+      One row per TURN, not per conversation, and 2,614,962 of 2,692,480 rows are
+      machine-generated (metadata / tool_use / tool_result). The loader filters to
+      role == "user" AND turn_type == "user_prompt": 62,544 turns over 5,795
+      sessions. `role == "user"` alone would admit 14,974 "system_injected" rows.
+      Turns within a session are correlated (~10.8 per session), so session_id and
+      turn number travel in meta and a first-turn-per-session subset stays
+      available after the fact.

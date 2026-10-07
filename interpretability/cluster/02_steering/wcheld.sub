@@ -1,0 +1,9 @@
+executable     = /bin/bash
+arguments      = "-c 'cd $ENV(UEA_INTERP_ROOT) && .venv/bin/python experiments/02_steering/wildchat_heldout.py --out-prefix results/wildchat_heldout'"
+error          = cluster/logs/wcheld_$(Cluster).err
+output         = cluster/logs/wcheld_$(Cluster).out
+log            = cluster/logs/wcheld_$(Cluster).log
+request_cpus   = 2
+request_memory = 32768
+request_disk   = 10G
+queue

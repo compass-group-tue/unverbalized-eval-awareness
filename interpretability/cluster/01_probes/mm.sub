@@ -1,0 +1,13 @@
+# Closed-form mass-mean probes and the cosine against our steering direction.
+# Runs alongside the slow iterative fit -- answers the headline question without
+# waiting for 300-epoch SGD over 64 layers.
+executable = /bin/bash
+arguments  = cluster/01_probes/run_massmean.sh
+error  = cluster/logs/massmean_$(Cluster).err
+output = cluster/logs/massmean_$(Cluster).out
+log    = cluster/logs/massmean_$(Cluster).log
+request_cpus   = 8
+request_memory = 24576
+request_disk   = 20G
++BypassLXCfs = "true"
+queue

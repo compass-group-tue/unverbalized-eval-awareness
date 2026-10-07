@@ -1,0 +1,11 @@
+executable = $ENV(AO_ROOT)/cluster/run_train.sh
+error  = $ENV(AO_ROOT)/cluster/logs/train_$(Cluster).err
+output = $ENV(AO_ROOT)/cluster/logs/train_$(Cluster).out
+log    = $ENV(AO_ROOT)/cluster/logs/train_$(Cluster).log
+request_memory = 262144
+request_cpus = 16
+request_gpus = 1
+request_disk = 100G
+requirements = TARGET.CUDADeviceName == "NVIDIA B200"
++BypassLXCfs = "true"
+queue

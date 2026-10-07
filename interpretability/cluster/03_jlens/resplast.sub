@@ -1,0 +1,36 @@
+# Re-extract all 32 cells with the `resp_last` anchor.
+#
+# `pre_marker` is indexed from the marker and so does not exist on rows that
+# never emitted one, which makes the marker/no-marker contrast undefined at
+# that position. `resp_last` indexes from the end of the model's content
+# instead: last non-whitespace response token, stepping back over a trailing
+# marker. Verified on 750 rows -- identical to pre_marker on 299, one token
+# further back (over whitespace) on 99, empty on the 86 interior-marker rows
+# that would otherwise read a position AFTER the marker. Mean distance to the
+# marker is 1.27 tokens, never more than 2.
+#
+# New run name: ws01 stays untouched. Every cell is recomputed because the
+# anchor set changed, so --only-missing is deliberately NOT passed. The config
+# also now carries resp_fractions/resp_offsets, so this run additionally picks
+# up resp_* and respoff_*, which the ws01 extraction predates.
+#
+#   condor_submit_bid 40 cluster/03_jlens/resplast.sub
+
+executable   = /bin/bash
+arguments    = cluster/03_jlens/run_anchor.sh $(cell) $(runname) --max-rows 2000
+
+runname      = ws02
+
+error        = cluster/logs/resplast_$(Cluster).$(Process).err
+output       = cluster/logs/resplast_$(Cluster).$(Process).out
+log          = cluster/logs/resplast_$(Cluster).$(Process).log
+
+request_gpus   = 1
+requirements   = TARGET.CUDAGlobalMemoryMb > 79000 && TARGET.CUDADeviceName =!= undefined
+request_cpus   = 8
+request_memory = 131072
+request_disk   = 100G
+
++BypassLXCfs = "true"
+
+queue cell from cluster/03_jlens/jobs/cells_all.txt

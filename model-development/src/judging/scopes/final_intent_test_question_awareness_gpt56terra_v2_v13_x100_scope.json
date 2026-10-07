@@ -1,0 +1,129 @@
+{
+  "protocol": "evaluation-intent and test-question-awareness judge v2, V13 SFT-then-DPO+NLL with X100",
+  "model_label": "v13_sft_then_dpo_nll__x100",
+  "analysis_root": "judge_calibration/evaluation_intent_test_question_awareness_gpt56terra_v2_v13_x100",
+  "reuse_sample_manifest": "judge_calibration/evaluation_intent_test_question_awareness_gpt56terra_v2/sample_manifest.json",
+  "seed": 42,
+  "sample_size": 200,
+  "datasets": [
+    {
+      "label": "mmlu",
+      "frozen_samples": "capability/run_003/inputs/mmlu/samples.jsonl",
+      "source": "capability/run_003/runs/v13_sft_then_dpo_nll__x100/mmlu/outputs",
+      "source_kind": "dir",
+      "judge_root": "capability/run_003/reports/v13_sft_then_dpo_nll__x100/evaluation_intent_test_question_awareness_gpt56terra_v2",
+      "strata": "metadata.subject"
+    },
+    {
+      "label": "bbh",
+      "frozen_samples": "capability/run_003/inputs/bbh/samples.jsonl",
+      "source": "capability/run_003/runs/v13_sft_then_dpo_nll__x100/bbh/outputs",
+      "source_kind": "dir",
+      "judge_root": "capability/run_003/reports/v13_sft_then_dpo_nll__x100/evaluation_intent_test_question_awareness_gpt56terra_v2",
+      "strata": "metadata.task,metadata.dataset_name,metadata.subset"
+    },
+    {
+      "label": "truthfulqa",
+      "frozen_samples": "capability/run_003/inputs/truthfulqa/samples.jsonl",
+      "source": "capability/run_003/runs/v13_sft_then_dpo_nll__x100/truthfulqa/outputs",
+      "source_kind": "dir",
+      "judge_root": "capability/run_003/reports/v13_sft_then_dpo_nll__x100/evaluation_intent_test_question_awareness_gpt56terra_v2"
+    },
+    {
+      "label": "ifeval",
+      "frozen_samples": "capability/run_003/inputs/ifeval/samples.jsonl",
+      "source": "capability/run_003/runs/v13_sft_then_dpo_nll__x100/ifeval/outputs",
+      "source_kind": "dir",
+      "judge_root": "capability/run_003/reports/v13_sft_then_dpo_nll__x100/evaluation_intent_test_question_awareness_gpt56terra_v2"
+    },
+    {
+      "label": "wildchat",
+      "frozen_samples": "deployment/run_002/inputs/wildchat/samples.jsonl",
+      "source": "deployment/run_002/runs/v13_sft_then_dpo_nll__x100/wildchat/outputs",
+      "source_kind": "dir",
+      "judge_root": "deployment/run_002/reports/v13_sft_then_dpo_nll__x100/evaluation_intent_test_question_awareness_gpt56terra_v2"
+    },
+    {
+      "label": "triggers",
+      "frozen_samples": "safety_eval_awareness/run_001/inputs/triggers/samples.jsonl",
+      "source": "safety_eval_awareness/run_001/runs/v13_sft_then_dpo_nll__x100/triggers/outputs",
+      "source_kind": "dir",
+      "judge_root": "safety_eval_awareness/run_001/reports/v13_sft_then_dpo_nll__x100/evaluation_intent_test_question_awareness_gpt56terra_v2",
+      "strata": "group"
+    },
+    {
+      "label": "agentic_misalignment",
+      "frozen_samples": "safety_eval_awareness/run_001/inputs/agentic_misalignment/samples.jsonl",
+      "source": "safety_eval_awareness/run_001/runs/v13_sft_then_dpo_nll__x100/agentic_misalignment/outputs",
+      "source_kind": "dir",
+      "judge_root": "safety_eval_awareness/run_001/reports/v13_sft_then_dpo_nll__x100/evaluation_intent_test_question_awareness_gpt56terra_v2",
+      "strata": "group"
+    },
+    {
+      "label": "strongreject_none",
+      "frozen_samples": "safety_eval_awareness/run_001/inputs/strongreject_none/samples.jsonl",
+      "source": "safety_eval_awareness/run_001/runs/v13_sft_then_dpo_nll__x100/strongreject_none/outputs",
+      "source_kind": "dir",
+      "judge_root": "safety_eval_awareness/run_001/reports/v13_sft_then_dpo_nll__x100/evaluation_intent_test_question_awareness_gpt56terra_v2"
+    },
+    {
+      "label": "strongreject_aim",
+      "frozen_samples": "safety_eval_awareness/run_001/inputs/strongreject_aim/samples.jsonl",
+      "source": "safety_eval_awareness/run_001/runs/v13_sft_then_dpo_nll__x100/strongreject_aim/outputs",
+      "source_kind": "dir",
+      "judge_root": "safety_eval_awareness/run_001/reports/v13_sft_then_dpo_nll__x100/evaluation_intent_test_question_awareness_gpt56terra_v2"
+    },
+    {
+      "label": "agentharm",
+      "frozen_samples": "safety_eval_awareness/run_001/inputs/agentharm/samples.jsonl",
+      "source": "safety_eval_awareness/run_001/runs/v13_sft_then_dpo_nll__x100/agentharm/outputs/all.jsonl",
+      "source_kind": "file",
+      "judge_root": "safety_eval_awareness/run_001/reports/v13_sft_then_dpo_nll__x100/evaluation_intent_test_question_awareness_gpt56terra_v2"
+    },
+    {
+      "label": "harmbench",
+      "frozen_samples": "safety_eval_awareness/run_001/inputs/harmbench/samples.jsonl",
+      "source": "safety_eval_awareness/run_001/runs/v13_sft_then_dpo_nll__x100/harmbench/outputs",
+      "source_kind": "dir",
+      "judge_root": "safety_eval_awareness/run_001/reports/v13_sft_then_dpo_nll__x100/evaluation_intent_test_question_awareness_gpt56terra_v2"
+    },
+    {
+      "label": "sgbench_direct",
+      "frozen_samples": "safety_eval_awareness/run_001/inputs/sgbench_direct/samples.jsonl",
+      "source": "safety_eval_awareness/run_001/runs/v13_sft_then_dpo_nll__x100/sgbench_direct/outputs",
+      "source_kind": "dir",
+      "judge_root": "safety_eval_awareness/run_001/reports/v13_sft_then_dpo_nll__x100/evaluation_intent_test_question_awareness_gpt56terra_v2"
+    },
+    {
+      "label": "sgbench_jailbreak_balanced",
+      "frozen_samples": "safety_eval_awareness/run_001/inputs/sgbench_jailbreak_balanced/samples.jsonl",
+      "source": "safety_eval_awareness/run_001/runs/v13_sft_then_dpo_nll__x100/sgbench_jailbreak_balanced/outputs",
+      "source_kind": "dir",
+      "judge_root": "safety_eval_awareness/run_001/reports/v13_sft_then_dpo_nll__x100/evaluation_intent_test_question_awareness_gpt56terra_v2",
+      "strata": "group"
+    },
+    {
+      "label": "sgbench_multiple_choice",
+      "frozen_samples": "safety_eval_awareness/run_001/inputs/sgbench_multiple_choice/samples.jsonl",
+      "source": "safety_eval_awareness/run_001/runs/v13_sft_then_dpo_nll__x100/sgbench_multiple_choice/outputs",
+      "source_kind": "dir",
+      "judge_root": "safety_eval_awareness/run_001/reports/v13_sft_then_dpo_nll__x100/evaluation_intent_test_question_awareness_gpt56terra_v2"
+    },
+    {
+      "label": "sgbench_safety_judgement",
+      "frozen_samples": "safety_eval_awareness/run_001/inputs/sgbench_safety_judgement/samples.jsonl",
+      "source": "safety_eval_awareness/run_001/runs/v13_sft_then_dpo_nll__x100/sgbench_safety_judgement/outputs",
+      "source_kind": "dir",
+      "judge_root": "safety_eval_awareness/run_001/reports/v13_sft_then_dpo_nll__x100/evaluation_intent_test_question_awareness_gpt56terra_v2",
+      "strata": "group"
+    },
+    {
+      "label": "evalawarebench_f8_excluded",
+      "frozen_samples": "safety_eval_awareness/run_002/inputs/evalawarebench/samples.jsonl",
+      "source": "safety_eval_awareness/run_002/runs/v13_sft_then_dpo_nll__x100/evalawarebench/outputs",
+      "source_kind": "dir",
+      "judge_root": "safety_eval_awareness/run_002/reports/v13_sft_then_dpo_nll__x100/evaluation_intent_test_question_awareness_gpt56terra_v2",
+      "strata": "meta.official_configuration+meta.valence,meta.official_configuration+group"
+    }
+  ]
+}

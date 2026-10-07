@@ -1,0 +1,15 @@
+executable   = /bin/bash
+arguments    = cluster/02_steering/run_steer2.sh $(name) $(prompts) $(key) $(layers) $(ratio) $(sign) $(seed) $(limit)
+
+error  = cluster/logs/steer2_$(Cluster).$(Process).err
+output = cluster/logs/steer2_$(Cluster).$(Process).out
+log    = cluster/logs/steer2_$(Cluster).$(Process).log
+
+request_gpus   = 1
+requirements   = TARGET.CUDAGlobalMemoryMb > 79000
+request_cpus   = 8
+request_memory = 131072
+request_disk   = 100G
++BypassLXCfs = "true"
+
+queue name,prompts,key,layers,ratio,sign,seed,limit from $(jobs)

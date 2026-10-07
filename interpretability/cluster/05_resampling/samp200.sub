@@ -1,0 +1,20 @@
+# Combined sample-robustness run: 9 benchmarks, 200 prompts each (176 for
+# agentharm), K=8 independent seeded draws at temperature 1.0.
+# The runs already on disk cover bbh seeds 1-8 on prompts 1-100 and the four
+# trajectory benchmarks' seeds 1-4 on prompts 1-100; those slices are not
+# repeated here. scripts/assemble_samp200.py stitches the slices back together.
+executable   = /bin/bash
+arguments    = cluster/05_resampling/run_replicate.sh $(name) $(seed) $(prompts) samp200_ $(maxtok)
+
+error  = cluster/logs/s200_$(Cluster).$(Process).err
+output = cluster/logs/s200_$(Cluster).$(Process).out
+log    = cluster/logs/s200_$(Cluster).$(Process).log
+
+request_gpus   = 1
+requirements   = TARGET.CUDAGlobalMemoryMb > 79000
+request_cpus   = 8
+request_memory = 131072
+request_disk   = 100G
++BypassLXCfs = "true"
+
+queue name,seed,prompts,maxtok from cluster/05_resampling/jobs/samp200_jobs.txt

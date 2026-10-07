@@ -1,0 +1,10 @@
+results/
+scratch/
+artifacts/
+figures/out/
+cluster/**/logs/
+experiments/04_oracles/activation_oracles/
+.venv/
+__pycache__/
+*.pt
+*.safetensors

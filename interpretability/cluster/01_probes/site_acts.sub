@@ -1,0 +1,18 @@
+# Test data: ORGANISM, x100, the ws02 rows, eleven sites, 64 layers. One job per cell.
+executable = /bin/bash
+arguments  = cluster/01_probes/run_site_acts.sh $(cellkey)
+error  = cluster/logs/siteacts_$(Cluster)_$(Process).err
+output = cluster/logs/siteacts_$(Cluster)_$(Process).out
+log    = cluster/logs/siteacts_$(Cluster).log
+request_gpus   = 1
+requirements   = TARGET.CUDAGlobalMemoryMb > 79000
+request_cpus   = 8
+request_memory = 131072
+request_disk   = 50G
++BypassLXCfs = "true"
+queue cellkey in (
+  deployment__run_002__x100__wildchat
+  capability__run_003__x100__bbh
+  safety_eval_awareness__run_001__x100__evalawarebench
+  safety_eval_awareness__run_001__x100__triggers
+)
